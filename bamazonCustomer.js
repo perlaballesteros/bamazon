@@ -22,25 +22,23 @@ connection.connect(function(err) {
   
 });
 function enterOrder(newQuantity,item_id){
-    console.log(newQuantity);
-    console.log(item_id);
     var query=connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",
         [newQuantity,item_id],
         function(err,res){
-            console.log(res);
+            //readProducts();
         }
     );
     console.log(query.sql);
 }
 
 function productAvail(ans){
-    var query=connection.query("SELECT stock_quantity,item_id FROM products WHERE ?",{item_id: ans.item_id}, function(err, res) {
+    var query=connection.query("SELECT price,stock_quantity,item_id FROM products WHERE ?",{item_id: ans.item_id}, function(err, res) {
         if (err) throw err;
         var newQuantity=res[0].stock_quantity-ans.quantity;
-
+        var orderTotal=ans.quantity*res[0].price;
         if(newQuantity>0){
             
-            console.log("enough quantity!");
+            console.log("Your Total for this Order is:$"+orderTotal);
             enterOrder(newQuantity,res[0].item_id);
             connection.end();
         }
