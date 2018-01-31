@@ -1,0 +1,28 @@
+DROP DATABASE IF EXISTS bamazon;
+CREATE DATABASE bamazon;
+USE bamazon;
+
+CREATE	TABLE products(
+
+	item_id INTEGER (11) NOT NULL,
+    product_name VARCHAR(150) NULL,
+    department_name VARCHAR(50) NULL,
+    price DECIMAL(10,2) NULL,
+    stock_quantity INTEGER(50) NULL,
+   
+    PRIMARY KEY (item_id)
+);
+
+INSERT INTO products(item_id,product_name,department_name,price,stock_quantity)
+VALUES(235,"Mini Sewing Kit","Arts, Crafts & Sewing",12.99,300),
+        (756 ,"Tongue Cleaner","Beauty & Personal Care",6.99,50),
+        (567,"Apple Ipad","ComputerTablets",200,1000),
+        (879,"Nature Night Pacifier","baby",5.97,46),
+        (789,"Aker Elite Dual Port","Electronics",10.99,23),
+        (456,"Hasbro Game-Jenga","Toys& Games",16.99,55),
+        (203,"Resistance Bands set of 4","Sports & OUtdoors",10.50,78),
+        (890,"Thick Yoga Mat","Sports & OUtdoors",34.99,20),
+        (113,"Full House First Season","Movies and TV",17.99,45),
+        (633,"The Detox Miracle Sourcebook:Raw Foods and Herbs for Complete Cellular Regeneration Paperback","Books",28.05,6);
+
+SELECT*FROM products;
