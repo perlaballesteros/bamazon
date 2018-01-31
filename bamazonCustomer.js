@@ -22,34 +22,27 @@ connection.connect(function(err) {
   
 });
 function enterOrder(newQuantity,item_id){
-    connection.query("UPDATE products SET ? WHERE ?",
-        [
-            {
-                quantity:newQuantity
-            },
-            {
-                item_id:item_id
-            }
-        ],function(err,res){
+    console.log(newQuantity);
+    console.log(item_id);
+    var query=connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",
+        [newQuantity,item_id],
+        function(err,res){
             console.log(res);
-    
-        });
-
+        }
+    );
+    console.log(query.sql);
 }
 
 function productAvail(ans){
-    connection.query("SELECT stock_quantity FROM products WHERE ?",{item_id: ans.item_id}, function(err, res) {
+    var query=connection.query("SELECT stock_quantity,item_id FROM products WHERE ?",{item_id: ans.item_id}, function(err, res) {
         if (err) throw err;
         var newQuantity=res[0].stock_quantity-ans.quantity;
-        console.log(res[0].stock_quantity);
-        console.log("ans"+ans.quantity);
-        console.log(newQuantity);
-        console.log(res);
 
         if(newQuantity>0){
             
             console.log("enough quantity!");
-            enterOrder(newQuantity,res.item_id);
+            enterOrder(newQuantity,res[0].item_id);
+            connection.end();
         }
         else{
             console.log("Insufficient quantity!");
@@ -66,7 +59,7 @@ function displayTable(res){
      
     // table is an Array, so you can `push`, `unshift`, `splice` and friends 
     for(var i=0;i<res.length;i++){
-        table.push([(i+1),res[i].item_id,res[i].product_name,res[i].price]);
+        table.push([res[i].id,res[i].item_id,res[i].product_name,res[i].price]);
     }  
     console.log(table.toString()); 
     promptUser();
@@ -88,13 +81,13 @@ function promptUser(){
     .then(function(ans){
         //console.log(ans)
         productAvail(ans);
-        connection.end();
+        
         
     });
 }
 
 function readProducts() {
-  connection.query("SELECT item_id,product_name, price FROM products", function(err, res) {
+    var query= connection.query("SELECT id,item_id,product_name, price FROM products", function(err, res) {
         if (err) throw err;
         displayTable(res);
     });   
