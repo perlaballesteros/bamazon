@@ -19,16 +19,14 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("connected as id " + connection.threadId + "\n");
   readProducts();
-  
 });
+//------------------------------------------------------------------
 function enterOrder(newQuantity,item_id){
     var query=connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",
         [newQuantity,item_id],
         function(err,res){
-            //readProducts();
         }
     );
-    console.log(query.sql);
 }
 
 function productAvail(ans){
@@ -36,14 +34,14 @@ function productAvail(ans){
         if (err) throw err;
         var newQuantity=res[0].stock_quantity-ans.quantity;
         var orderTotal=ans.quantity*res[0].price;
-        if(newQuantity>0){
-            
+        if(newQuantity>0){  
             console.log("Your Total for this Order is:$"+orderTotal);
             enterOrder(newQuantity,res[0].item_id);
             connection.end();
         }
         else{
             console.log("Insufficient quantity!");
+            console.log("Quantity: "+ res[0].stock_quantity);
         }
        
     });
@@ -77,10 +75,7 @@ function promptUser(){
         }
     ])
     .then(function(ans){
-        //console.log(ans)
         productAvail(ans);
-        
-        
     });
 }
 
