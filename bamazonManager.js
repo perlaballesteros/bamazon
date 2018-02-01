@@ -12,10 +12,61 @@ var connection = mysql.createConnection({
     password: "",
     database: "bamazon"
   });
+function addNewInventory(ans){
+    var query = connection.query(
+        "INSERT INTO products SET ?",
+        {
+          item_id: ans.item_id,
+          product_name: ans.item_name,
+          department_name:ans.item_department,
+          price:ans.item_price,
+          stock_quantity:ans.item_quantity
+        },
+        function(err, res) {
+            if (err) throw err;
+            connection.end();
+        }
+      );
+}
+
+function newInventoryprompt(){
+    inquirer.prompt([{
+        name: "item_id",
+        type: "input",
+        message: "Enter the new ItemID: ",
+    },
+    {
+        name: "item_name",
+        type: "input",
+        message: "Enter the Item Name: ",
+    },
+    {
+        name: "item_price",
+        type: "input",
+        message: "Enter the Item Price: ",
+    },
+    {
+        name: "item_quantity",
+        type: "input",
+        message: "Enter the Item Stock Quantity: ",
+    },
+    {
+        name: "item_department",
+        type: "input",
+        message: "Enter the Item Department: ",
+    }
+    ]).then(function(ans){
+        console.log(ans);
+        addNewInventory(ans);
+    });
+
+}  
+
 function addInventory(item_id,newQuantity){
     var query=connection.query("UPDATE products SET stock_quantity=? WHERE item_id=?",
     [newQuantity,item_id],
     function(err,res){
+        if (err) throw err;
         console.log(connection.query);
         connection.end();
     }
@@ -101,7 +152,7 @@ function mainOptions(){
                 addInventoryprompt();
             break;
             case "Add New Product":
-                addNewproduct();
+                newInventoryprompt();
             break;
         }
         
