@@ -56,7 +56,7 @@ function newInventoryprompt(){
         message: "Enter the Item Department: ",
     }
     ]).then(function(ans){
-        console.log(ans);
+        //console.log(ans);
         addNewInventory(ans);
     });
 
@@ -67,7 +67,7 @@ function addInventory(item_id,newQuantity){
     [newQuantity,item_id],
     function(err,res){
         if (err) throw err;
-        console.log(connection.query);
+        //console.log(connection.query);
         connection.end();
     }
 );
