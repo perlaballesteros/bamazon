@@ -8,7 +8,3 @@ Bamazon Manager Interface
 
 **Description:**
  
-**Skills:**
-
-
-**Improvements:**
