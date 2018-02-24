@@ -7,4 +7,4 @@ Bamazon Manager Interface
 ![Demo Manager Side gif](./screenshots/bamazonManager.gif)
 
 **Description:**
- 
+ Bamazon app development applied 
